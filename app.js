@@ -138,26 +138,51 @@ for (let p = 0; p < starsNumber; p++) {
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- the game loop =-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-// our animation loop
+// our animation loop aka, the GAME LOOP function
 
 let timeDiff,
   timeLast = 0;
 requestAnimationFrame(runStars);
 
 function runStars(timeNow) {
+  canvasCTX.clearRect(0, 0, canvasEl.width, canvasEl.height);
   // this is how you calculate the frame difference
   timeDiff = timeNow - timeLast;
   timeLast = timeNow;
+
+  // drawing the stars
+  canvasCTX.fillStyle = starsColor;
+  for (let w = 0; w < starsNumber; w++) {
+    canvasCTX.beginPath();
+    canvasCTX.arc(
+      stars[w].horizontalPosition,
+      stars[w].verticalPosition,
+      stars[w].starRadius,
+      0,
+      Math.PI * 2
+    );
+    canvasCTX.fill();
+
+    // update the stars' horixontal position
+    stars[w].horizontalPosition +=
+      stars[w].horizontalVelocity * timeDiff * 0.001;
+  }
 
   requestAnimationFrame(runStars);
 }
 
 // setInterval(runStars, 1000 / 60); // another way of doing requestAnimationFrame() but we will not be doing it this way
 
-runStars();
-
 // the randomSign function
 
 function randomSign() {
   return Math.random() >= 0.5 ? 1 : -1;
 }
+
+/*
+do not spoil what you have
+by desiring what you have not;
+remember that what you have now
+was once among the things you hoped for 
+- Epicurus
+*/
