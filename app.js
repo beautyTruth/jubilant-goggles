@@ -113,6 +113,12 @@ const starsNumber = 2000;
 const size = 0.005; // maximum star size as a fraction of the screen width;
 const speed = 0.05; // fraction of screen width per second
 
+// setting up our stars
+
+let stars = [];
+let starsSpeed = speed * canvasEl.width;
+let horizontalVelocity = starsSpeed * randomSign() * Math.random();
+
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- the game loop =-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 // our animation loop
@@ -132,3 +138,9 @@ function runStars(timeNow) {
 // setInterval(runStars, 1000 / 60); // another way of doing requestAnimationFrame() but we will not be doing it this way
 
 runStars();
+
+// the randomSign function
+
+function randomSign() {
+  return Math.random() >= 0.5 ? 1 : -1;
+}
