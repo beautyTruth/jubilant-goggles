@@ -108,19 +108,19 @@ const canvasCTX = canvasEl.getContext("2d");
 canvasEl.height = window.innerHeight;
 canvasEl.width = window.innerWidth;
 
-const starsColor = "aqua";
+const starsColor = "antiquewhite";
 const starsNumber = 2000;
-const size = 0.005; // maximum star size as a fraction of the screen width;
-const speed = 0.05; // fraction of screen width per second
+const size = 0.04; // maximum star size as a fraction of the screen width;
+const speed = 0.09; // fraction of screen width per second
 
 // setting up our stars
 
 let stars = [];
 let starsSpeed = speed * canvasEl.width;
 let horizontalVelocity = starsSpeed * randomSign() * Math.random();
-let verticalVelocity = Math.sqrt(
-  Math.pow(starsSpeed, 2) - Math.pow(horizontalVelocity, 2) * randomSign()
-);
+let verticalVelocity =
+  Math.sqrt(Math.pow(starsSpeed, 2) - Math.pow(horizontalVelocity, 2)) *
+  randomSign();
 // a = sqrt(c ^ (2 - b) ^ 2);
 
 // randomizing the stars speed, size, and location
@@ -166,6 +166,29 @@ function runStars(timeNow) {
     // update the stars' horixontal position
     stars[w].horizontalPosition +=
       stars[w].horizontalVelocity * timeDiff * 0.001;
+
+    // reposition stars to opposite side of the screen if they move off one side
+    if (stars[w].horizontalPosition < 0 - stars[w].starRadius) {
+      stars[w].horizontalPosition = canvasEl.width + stars[w].starRadius;
+    } else if (
+      stars[w].horizontalPosition >
+      canvasEl.width + stars[w].starRadius
+    ) {
+      stars[w].horizontalPosition = 0 - stars[w].starRadius;
+    }
+
+    // update the stars' vertical position
+    stars[w].verticalPosition += stars[w].verticalVelocity * timeDiff * 0.001;
+
+    // reposition stars to the top of the screen if they move off the bottom and vice versa
+    if (stars[w].verticalPosition < 0 - stars[w].starRadius) {
+      stars[w].verticalPosition = canvasEl.height + stars[w].starRadius;
+    } else if (
+      stars[w].verticalPosition >
+      canvasEl.height + stars[w].starRadius
+    ) {
+      stars[w].verticalPosition = 0 - stars[w].starRadius;
+    }
   }
 
   requestAnimationFrame(runStars);
