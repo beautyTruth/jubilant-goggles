@@ -118,6 +118,23 @@ const speed = 0.05; // fraction of screen width per second
 let stars = [];
 let starsSpeed = speed * canvasEl.width;
 let horizontalVelocity = starsSpeed * randomSign() * Math.random();
+let verticalVelocity = Math.sqrt(
+  Math.pow(starsSpeed, 2) - Math.pow(horizontalVelocity, 2) * randomSign()
+);
+// a = sqrt(c ^ (2 - b) ^ 2);
+
+// randomizing the stars speed, size, and location
+
+for (let p = 0; p < starsNumber; p++) {
+  let speedBoost = Math.random() * 2.5 + 0.5;
+  stars[p] = {
+    starRadius: (Math.random() * size * canvasEl.width) / 2,
+    horizontalPosition: Math.floor(Math.random() * canvasEl.width),
+    verticalPosition: Math.floor(Math.random() * canvasEl.height),
+    horizontalVelocity: horizontalVelocity * speedBoost,
+    verticalVelocity: verticalVelocity * speedBoost,
+  };
+}
 
 // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- the game loop =-=-=--=-=-=-=-=-=-=-=-=-=-=-=-=-
 
